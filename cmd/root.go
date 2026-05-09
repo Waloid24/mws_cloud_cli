@@ -7,13 +7,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "mws",
-	Short: "Small cloud-style CLI for managing local profiles",
+func NewRootCommand() *cobra.Command {
+	rootCmd := &cobra.Command{
+		Use:           "mws_cloud_cli",
+		Short:         "Small cloud-style CLI for managing local profiles",
+		SilenceErrors: true,
+		SilenceUsage:  true,
+		CompletionOptions: cobra.CompletionOptions{
+			DisableDefaultCmd: true,
+		},
+	}
+
+	rootCmd.AddCommand(newProfileCommand())
+
+	return rootCmd
 }
 
 func Execute() {
-	if err := rootCmd.Execute(); err != nil {
+	if err := NewRootCommand().Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
