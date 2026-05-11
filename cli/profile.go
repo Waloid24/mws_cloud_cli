@@ -1,15 +1,15 @@
-package cmd
+package cli
 
 import (
 	"fmt"
 	"strings"
 
-	profilepkg "github.com/Waloid24/mws_cloud_cli/internal/profile"
+	"github.com/Waloid24/mws_cloud_cli/storage"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
 
-func newProfileCommand() *cobra.Command {
+func NewProfileCommand() *cobra.Command {
 	profileCmd := &cobra.Command{
 		Use:   "profile",
 		Short: "Manage local profiles",
@@ -48,11 +48,11 @@ go run . profile create --name=test --user=example --project=new-project`,
 				return err
 			}
 
-			p := profilepkg.Profile{
+			p := storage.Profile{
 				User:    user,
 				Project: project,
 			}
-			if err := profilepkg.Create(name, p); err != nil {
+			if err := storage.Create(name, p); err != nil {
 				return err
 			}
 
@@ -82,7 +82,7 @@ go run . profile get --name=test`,
 				return err
 			}
 
-			p, err := profilepkg.Get(name)
+			p, err := storage.Get(name)
 			if err != nil {
 				return err
 			}
@@ -110,7 +110,7 @@ func newProfileListCommand() *cobra.Command {
 		Example: `mws_cloud_cli profile list
 go run . profile list`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			names, err := profilepkg.List()
+			names, err := storage.List()
 			if err != nil {
 				return err
 			}
@@ -138,7 +138,7 @@ go run . profile delete --name=test`,
 				return err
 			}
 
-			if err := profilepkg.Delete(name); err != nil {
+			if err := storage.Delete(name); err != nil {
 				return err
 			}
 

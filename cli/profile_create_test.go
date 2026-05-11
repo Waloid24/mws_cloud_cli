@@ -1,4 +1,4 @@
-package cmd
+package cli
 
 import (
 	"bytes"
@@ -7,6 +7,8 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+
+	"github.com/spf13/cobra"
 )
 
 func TestProfileCreateCreatesYAMLFile(t *testing.T) {
@@ -210,13 +212,27 @@ func executeCommand(args ...string) (string, error) {
 	var stdout bytes.Buffer
 	var stderr bytes.Buffer
 
-	rootCmd := NewRootCommand()
+	rootCmd := newTestRootCommand()
 	rootCmd.SetOut(&stdout)
 	rootCmd.SetErr(&stderr)
 	rootCmd.SetArgs(args)
 
 	err := rootCmd.Execute()
 	return stdout.String() + stderr.String(), err
+}
+
+func newTestRootCommand() *cobra.Command {
+	rootCmd := &cobra.Command{
+		Use:           "mws_cloud_cli",
+		SilenceErrors: true,
+		SilenceUsage:  true,
+		CompletionOptions: cobra.CompletionOptions{
+			DisableDefaultCmd: true,
+		},
+	}
+
+	rootCmd.AddCommand(NewProfileCommand())
+	return rootCmd
 }
 
 func chdirTemp(t *testing.T) {

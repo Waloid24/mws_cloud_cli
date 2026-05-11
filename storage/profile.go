@@ -1,4 +1,4 @@
-package profile
+package storage
 
 type Profile struct {
 	User    string `yaml:"user"`

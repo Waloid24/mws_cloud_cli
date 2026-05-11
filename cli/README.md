@@ -1,9 +1,9 @@
-# cmd package
+# cli package
 
 This package contains Cobra commands.
 
 ## Run tests
 
 ```bash
-go test ./cmd
+go test ./cli
 ```

@@ -1,4 +1,4 @@
-package profile
+package storage
 
 import (
 	"errors"
@@ -149,5 +149,4 @@ func chdirTemp(t *testing.T) {
 			t.Fatalf("restore working directory to %q: %v", previousDir, err)
 		}
 	})
-
 }
